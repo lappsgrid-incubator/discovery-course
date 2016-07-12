@@ -1,0 +1,126 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "vassar",
+            "image": "lappsgrid/vassar",
+            "cpu": 256,
+            "memory": 4096,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8001,
+                    "protocol": "tcp"
+                }
+            ],
+            "command": [
+                "/usr/bin/startup"
+            ],
+            "links": null
+        },
+        {
+            "name": "brandeis",
+            "image": "lappsgrid/brandeis",
+            "cpu": 256,
+            "memory": 4096,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8002,
+                    "protocol": "tcp"
+                }
+            ],
+            "command": [
+                "/usr/bin/startup"
+            ],
+            "links": null
+        },
+        {
+            "name": "evaluation",
+            "image": "lappsgrid/evaluation",
+            "cpu": 256,
+            "memory": 512,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8004,
+                    "protocol": "tcp"
+                }
+            ],
+            "command": [
+                "/usr/bin/startup"
+            ],
+            "links": null
+        },
+        {
+            "name": "gigaword",
+            "image": "lappsgrid/gigaword",
+            "cpu": 256,
+            "memory": 512,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8003,
+                    "protocol": "tcp"
+                }
+            ],
+            "command": [
+                "/usr/bin/startup"
+            ],
+            "links": null
+        },
+        {
+            "name": "manager",
+            "image": "lappsgrid/service-manager",
+            "cpu": 256,
+            "memory": 512,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp"
+                }
+            ],
+            "command": [
+                "/usr/bin/startup"
+            ],
+            "links": [
+                "vassar",
+                "brandeis",
+                "evaluation",
+                "gigaword"
+            ]
+        },
+        {
+            "name": "galaxy",
+            "image": "lappsgrid/galaxy-discovery",
+            "cpu": 256,
+            "memory": 1024,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "command": [
+                "/usr/bin/startup"
+            ],
+            "links": [
+                "manager",
+                "evaluation",
+                "gigaword"
+            ],
+            "privileged": true
+        }
+    ],
+    "volumes": [
+        
+    ],
+    "family": "lappsgrid-discovery-appliance"
+}

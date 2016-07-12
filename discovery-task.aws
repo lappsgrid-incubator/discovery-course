@@ -1,0 +1,171 @@
+// The JSONC Groovy DSL that defines the JSON configuration
+// to launch the Lappsgrid Discovery course appliance inside
+// Amazon ECS (Elastic Container Service).
+
+/* 
+ * Configuration maps
+ * These configuration maps allow us to see the various settings 
+ * for each Docker container grouped together in one place.
+ */
+ 
+// Port mapping for each container.  The 'from' field is the
+// external server port and the 'to' field is the port inside
+// the container.  So http://server:8001 gets mapped to the 
+// vassar container's port 8080, http://server:8004 gets mapped 
+// to evaluation:8080, and so on.
+ports = [
+	vassar: [from:8001, to:8080],
+	brandeis: [from:8002, to:8080],
+	gigaword: [from:8003, to:8080],
+	evaluation: [from:8004, to:8080],
+	manager: [from:8080, to:8080],
+	galaxy: [from:80, to:80]
+]
+
+// The number of "cpu units" assigned to the container. On Amazon ECS
+// there are 1024 "cpu units" available for every core in the instance.
+// If no value is specified for a container the default value is used.
+cpu = [
+	default: 256
+]
+
+
+// The amount of memory allocated to the container. In no value is 
+// specified for a container the default value will be used.
+memory = [
+	default: 512,
+	vassar: 4096,
+	brandeis: 4096,
+	galaxy: 1024
+]
+
+// Other containers the given container should be linked to .  Docker
+// creates entries in the container's /etc/hosts file so a container 
+// can reference the other containers by name, e.g. 
+// http://vassar:8080, http://galaxy, etc.
+links = [
+	manager: ['vassar', 'brandeis', 'evaluation', 'gigaword'],
+	galaxy: ['manager', 'evaluation', 'gigaword']
+]
+
+// The Docker image to be used for the container. 
+images = [
+	manager: 'lappsgrid/service-manager',
+	galaxy: 'lappsgrid/galaxy-discovery'
+]
+['vassar','brandeis', 'gigaword', 'evaluation'].each {
+	images[it] = "lappsgrid/$it"
+}
+
+// A simple closure that generates the data structure (a list of maps)
+// that is used to configure the port mappings for an image.
+map = { host, container ->
+	[[
+		containerPort: container,
+		hostPort: host,
+		protocol: 'tcp'
+	]]
+}
+
+// The list of containers we will be creating.
+def containers = [ 'vassar', 'brandeis', 'evaluation', 'gigaword', 'manager', 'galaxy' ]
+
+
+/*** JSON magic starts here. ***/
+// The ECS JSON configuration file is a map with three named sections:
+// 1. containerDefinitions: cpu, memory, etc. settings for each container
+//    
+containerDefinitions (
+	containers.collect { name ->
+		def definition = [
+			name: name,
+			image: images[name],
+			cpu: cpu[name] ?: cpu.default,
+			memory: memory[name] ?: memory.default,
+			essential: true,
+			portMappings: map(ports[name].from, ports[name].to),
+			command: [ '/usr/bin/startup' ],
+			links: links[name]
+		]
+		// Customize per container settings here.
+		if (name == 'galaxy') {
+			definition.privileged = true
+		}
+		return definition
+	} 
+)
+volumes([])
+family "lappsgrid-discovery-appliance" 
+
+
+/* This was the first method of configuring the containers.  However,
+ * tweaking cpu, memory, and ports was awkward.  For example, it was 
+ * not easy to see at a glance all the ports assigned by the appliance
+ * on one place; you had to jump around the script.
+ */
+ /*
+def vassar = [
+	name: 'vassar',
+	image: images/vassar,
+	cpu: 512,
+	memory: 4096,
+	essential: true,
+	portMappings: map(ports.vassar, 8080),
+	command: START
+]
+
+def brandeis = [
+	name: 'brandeis',
+	image: images.brandeis,
+	cpu: 512,
+	memory: 4096,
+	essential: true,
+	portMappings: map(ports.brandeis, 8080),
+	command: START
+]
+
+def gigaword = [
+	name: 'gigaword',
+	image: images.gigaword,
+	cpu: 256,
+	memory: 1024,
+	essential: true,
+	portMappings: map(ports.gigaword, 8080),
+	command: START
+]
+
+def evaluation = [
+	name: 'evaluation',
+	image: images.evaluation,
+	cpu: 512,
+	memory: 4096,
+	essential: true,
+	portMappings: map(ports.evaluation, 8080),
+	command: START
+]
+
+def manager = [
+	name: 'manager',
+	image: images.manager,
+	cpu: 256,
+	memory: 1024,
+	links: ['vassar', 'brandeis', 'evaluation'],
+	essential: true,
+	portMappings: map(ports.manager, 8080),
+	command: START
+]
+
+def galaxy = [
+	name: 'galaxy',
+	image: images.galaxy,
+	cpu: 512,
+	memory: 1024,
+	links: [ 'manager', 'gigaword', 'evaluation' ],
+	essential: true,
+	portMappings: map(ports.galaxy, 80),
+	command: START
+]
+containerDefinitions( [ brandeis, vassar, gigaword, evaluation, manager, galaxy ] )
+volumes([])
+family "lappsgrid-aws-appliance" 
+*/
