@@ -23,8 +23,8 @@ LOG=/var/log/tomcat7/catalina.out
 # if you don't have Gigaword installed on your local machine.
 #GIGAWORD_VOLUME="-v /mnt/sda1/var/lib/gigaword:/gigaword"
 #GIGAWORD_VOLUME="-v /Users/suderman/corpora/gigaword:/gigaword"
-
-GALAXY_VOLUME="-v /mnt/sda1/var/lib/galaxy:/export"
+GIGAWORD_VOLUME="-v /var/local/corpora/hostage:/gigaword"
+GALAXY_VOLUME="-v /var/local/galaxy:/export"
 
 # The Docker executable.  This is the default location, if you mave moved the
 # docker executable to a different location you will need to update this as well.
@@ -245,9 +245,9 @@ fi
 # Check if Gigaword is available and set the $CONTAINERS and
 # $GALAXY_LINKS accordingly.
 if [ -n "$GIGAWORD_VOLUME" ] ; then
-    GALAXY_LINKS="--link manager --link gigaword --link evaluation"
+    GALAXY_LINKS="--link manager --link gigaword --link evaluation --link vassar"
 else
-    GALAXY_LINKS="--link manager --link evaluation"
+    GALAXY_LINKS="--link manager --link evaluation --link vassar"
 fi
 
 case $1 in
