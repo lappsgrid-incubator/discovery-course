@@ -1,0 +1,30 @@
+#!/bin/bash
+set -eu
+
+GITHUB=https://github.com/lappsgrid-incubator
+
+function clone {
+	dir=$1
+	repo=$2
+	branch=$3
+	if [ -e $dir ] ; then		
+		cd $dir
+		git pull origin $branch
+	else
+		git clone $GITHUB/$repo $dir
+		cd $dir
+		git checkout $branch
+	fi
+#	make
+#	make push
+	cd ../
+}
+
+clone vassar docker-vassar.git master
+clone brandies docker-brandeis.git master
+clone gigaword docker-gigaword.git discovery
+clone manager docker-service-manager.git discovery
+clone galaxy docker-galaxy-lappsgrid.git discovery
+clone evaluation docker-oaqa.git master
+
+echo "All Docker images have been built."
