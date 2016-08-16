@@ -5,6 +5,8 @@ apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E8
 echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
 apt-get update
 apt-get install -y linux-image-extra-$(uname -r) docker-engine
+git clone https://github.com/lappsgrid-incubator/discovery-course.git
+cd discovery-course && cp connect clone build lappsgrid /usr/local/bin
 docker run --name ecs-agent \
 --detach=true \
 --restart=on-failure:10 \
