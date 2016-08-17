@@ -7,6 +7,12 @@ apt-get update
 apt-get install -y linux-image-extra-$(uname -r) docker-engine
 git clone https://github.com/lappsgrid-incubator/discovery-course.git
 cd discovery-course && cp connect clone build lappsgrid /usr/local/bin
+mkdir -p /var/local/corpora
+cd /var/local/corpora 
+wget http://www.anc.org/downloads/kidnap2.tgz
+wget http://www.anc.org/downloads/Yemen.tgz
+tar xzf kidnap2.tgz
+tar xzf Yemen.tgz
 docker run --name ecs-agent \
 --detach=true \
 --restart=on-failure:10 \

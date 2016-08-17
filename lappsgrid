@@ -23,10 +23,11 @@ LOG=/var/log/tomcat7/catalina.out
 # if you don't have Gigaword installed on your local machine.
 #GIGAWORD_VOLUME="-v /mnt/sda1/var/lib/gigaword:/gigaword"
 #GIGAWORD_VOLUME="-v /Users/suderman/corpora/gigaword:/gigaword"
-#GIGAWORD_VOLUME="-v /var/local/corpora/hostage:/gigaword"
-#GALAXY_VOLUME="-v /var/local/galaxy:/export"
-GIGAWORD_VOLUME="-v /Users/suderman/docker/hostage:/gigaword"
-GALAXY_VOLUME="-v /Users/suderman/docker/galaxy"
+GIGAWORD_VOLUME="-v /var/local/corpora/hostage:/gigaword"
+KIDNAP2_VOLUME="-v /var/local/corpora/kidnap2-lif:/kidnap2"
+GALAXY_VOLUME="-v /var/local/galaxy:/export"
+#GIGAWORD_VOLUME="-v /Users/suderman/docker/hostage:/gigaword"
+#GALAXY_VOLUME="-v /Users/suderman/docker/galaxy"
 
 # The Docker executable.  This is the default location, if you mave moved the
 # docker executable to a different location you will need to update this as well.
@@ -36,7 +37,7 @@ DOCKER=docker
 # The order of the containers is important as this is the order they will be 
 # created and startup will fail if a container attempts to link to a
 # container that has not been started yet.
-CONTAINERS="vassar brandeis evaluation gigaword manager galaxy"
+CONTAINERS="vassar brandeis evaluation gigaword kidnap2 manager galaxy"
 if [ -z "$GIGAWORD_VOLUME" ] ; then
     CONTAINERS=$(echo $CONTAINERS | sed 's/gigaword //')
 fi
@@ -57,6 +58,7 @@ BRANDEIS=lappsgrid/brandeis
 EVALUATION=lappsgrid/evaluation
 GALAXY=lappsgrid/galaxy-discovery
 GIGAWORD=lappsgrid/gigaword
+KIDNAP=lappsgrid/gigaword
 MANAGER=lappsgrid/service-manager
 VASSAR=lappsgrid/vassar
 
@@ -66,6 +68,7 @@ VASSAR_PORT=8001
 BRANDEIS_PORT=8002
 GIGAWORD_PORT=8003
 OAQA_PORT=8004
+KIDNAP_PORT=8005
 MANAGER_PORT=8080
 
 # ANSI color codes for the console.
@@ -149,7 +152,8 @@ function print_ports() {
     echo "Galaxy          : http://$IP:$GALAXY_PORT"
     echo "Vassar Tomcat   : http://$IP:$VASSAR_PORT/manager/html"
     echo "Brandeis Tomcat : http://$IP:$BRANDEIS_PORT/manager/html"
-    echo "Gigaword Tomcat : http://$IP:$GIGAWORD_PORT/manager/html"
+    echo "Kidnap 1 Tomcat : http://$IP:$GIGAWORD_PORT/manager/html"
+    echo "Kidnap 2 Tomcat : http://$IP:$KIDNAP_PORT/manager/html"
     echo "OAQA Evaluation : http://$IP:$OAQA_PORT/manager/html"
     echo "Service Manager : http://$IP:$MANAGER_PORT/service_manager"
     echo
@@ -161,6 +165,7 @@ function define_images() {
         EVALUATION=lappsgrid/evaluation:$1
         GALAXY=lappsgrid/galaxy:$1
         GIGAWORD=lappsgrid/gigaword:$1
+        KIDNAP=lappsgrid/gigaword:$1
         MANAGER=lappsgrid/service-manager:$1
         VASSAR=lappsgrid/vassar:$1
     fi
@@ -172,6 +177,7 @@ function get_image() {
         vassar)     result=$VASSAR ;;
         brandeis)   result=$BRANDEIS ;;
         gigaword)   result=$GIGAWORD ;;
+        kidnap)		result=$KIDNAP
         oaqa)       result=$EVALUATION ;;
         evaluation) result=$EVALUATION ;;
         galaxy)     result=$GALAXY ;;
@@ -191,7 +197,11 @@ function run_all() {
         echo "Starting $GIGAWORD"
         $DOCKER run -d --name gigaword -p $GIGAWORD_PORT:8080 $GIGAWORD_VOLUME $GIGAWORD
     fi
-
+	if [ -n "KIDNAP_VOLUME" ] ; then
+        echo "Starting $KIDNAP"
+        $DOCKER run -d --name kidnap -p $KIDNAP_PORT:8080 $KIDNAP_VOLUME $KIDNAP
+	fi
+	
     echo "Starting $EVALUATION"
     $DOCKER run -d --name evaluation -p $OAQA_PORT:8080 $EVALUATION
 
@@ -247,9 +257,9 @@ fi
 # Check if Gigaword is available and set the $CONTAINERS and
 # $GALAXY_LINKS accordingly.
 if [ -n "$GIGAWORD_VOLUME" ] ; then
-    GALAXY_LINKS="--link manager --link gigaword --link evaluation --link vassar"
+    GALAXY_LINKS="--link manager --link gigaword --link kidnap --link evaluation --link vassar"
 else
-    GALAXY_LINKS="--link manager --link evaluation --link vassar"
+    GALAXY_LINKS="--link manager --link evaluation --link kidnap --link vassar"
 fi
 
 case $1 in
