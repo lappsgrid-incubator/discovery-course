@@ -177,7 +177,7 @@ function get_image() {
         vassar)     result=$VASSAR ;;
         brandeis)   result=$BRANDEIS ;;
         gigaword)   result=$GIGAWORD ;;
-        kidnap)		result=$KIDNAP
+        kidnap)	    result=$KIDNAP ;;
         oaqa)       result=$EVALUATION ;;
         evaluation) result=$EVALUATION ;;
         galaxy)     result=$GALAXY ;;
