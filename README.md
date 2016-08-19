@@ -3,7 +3,7 @@ Scripts needed to configure EC2 for the analyst's discovery course.
 
 ## Creating an Amazon (EC2) Instance
 
-This is a process that you start from the EC2 Dahsboard in the AWS console by clicking the "Launch Instance" button.
+This is a process that you start from the EC2 Dashboard in the AWS console by clicking the "Launch Instance" button.
 
 ### Step 1: Choose an Amazon Machine Image (AMI)
 
@@ -16,7 +16,7 @@ For testing we have used:
 Family: General purpose<br/>
 Type: m4.2xlarge<br/>
 CPUs: 8<br/>
-Memory: 32S
+Memory: 32GB
 
 Click the Next button.
 
