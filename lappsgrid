@@ -37,7 +37,7 @@ DOCKER=docker
 # The order of the containers is important as this is the order they will be 
 # created and startup will fail if a container attempts to link to a
 # container that has not been started yet.
-CONTAINERS="vassar brandeis evaluation gigaword kidnap2 manager galaxy"
+CONTAINERS="vassar brandeis evaluation gigaword kidnap manager galaxy"
 if [ -z "$GIGAWORD_VOLUME" ] ; then
     CONTAINERS=$(echo $CONTAINERS | sed 's/gigaword //')
 fi
@@ -177,7 +177,7 @@ function get_image() {
         vassar)     result=$VASSAR ;;
         brandeis)   result=$BRANDEIS ;;
         gigaword)   result=$GIGAWORD ;;
-        kidnap)		result=$KIDNAP
+        kidnap)		result=$KIDNAP ;;
         oaqa)       result=$EVALUATION ;;
         evaluation) result=$EVALUATION ;;
         galaxy)     result=$GALAXY ;;
