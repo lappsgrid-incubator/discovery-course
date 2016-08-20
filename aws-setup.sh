@@ -1,6 +1,6 @@
 #!/bin/bash
 apt-get update
-apt-get install -y emacs24-nox apt-transport-https ca-certificates nfs-common make git
+apt-get install -y emacs24-nox apt-transport-https ca-certificates nfs-common make git unzip
 apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
 apt-get update
@@ -9,10 +9,14 @@ git clone https://github.com/lappsgrid-incubator/discovery-course.git
 cd discovery-course && cp connect clone build lappsgrid /usr/local/bin
 mkdir -p /var/local/corpora
 cd /var/local/corpora 
-wget http://www.anc.org/downloads/kidnap2.tgz
-wget http://www.anc.org/downloads/Yemen.tgz
-tar xzf kidnap2.tgz
-tar xzf Yemen.tgz
+wget http://www.anc.org/downloads/docker/kidnap1.zip
+wget http://www.anc.org/downloads/docker/kidnap2.zip
+wget http://www.anc.org/downloads/docker/kidnap1-s.zip
+wget http://www.anc.org/downloads/docker/kidnap2-s.zip
+unzip kidnap1.zip
+unzip kidnap2.zip
+unzip kidnap1-s.zip
+unzip kidnap2-s.zip
 docker run --name ecs-agent \
 --detach=true \
 --restart=on-failure:10 \

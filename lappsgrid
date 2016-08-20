@@ -25,7 +25,8 @@ LOG=/var/log/tomcat7/catalina.out
 #GIGAWORD_VOLUME="-v /Users/suderman/corpora/gigaword:/gigaword"
 GIGAWORD_VOLUME="-v /var/local/corpora/hostage:/gigaword"
 KIDNAP2_VOLUME="-v /var/local/corpora/kidnap2-lif:/kidnap2"
-GALAXY_VOLUME="-v /var/local/galaxy:/export"
+GALAXY_VOLUME="-v /var/local/galaxy:/export -v /var/local/corpora:/corpora"
+
 #GIGAWORD_VOLUME="-v /Users/suderman/docker/hostage:/gigaword"
 #GALAXY_VOLUME="-v /Users/suderman/docker/galaxy"
 
@@ -37,7 +38,9 @@ DOCKER=docker
 # The order of the containers is important as this is the order they will be 
 # created and startup will fail if a container attempts to link to a
 # container that has not been started yet.
-CONTAINERS="vassar brandeis evaluation gigaword kidnap manager galaxy"
+#CONTAINERS="vassar brandeis evaluation gigaword kidnap manager galaxy"
+CONTAINERS="vassar brandeis evaluation manager galaxy"
+
 if [ -z "$GIGAWORD_VOLUME" ] ; then
     CONTAINERS=$(echo $CONTAINERS | sed 's/gigaword //')
 fi

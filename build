@@ -2,9 +2,9 @@
 
 while [ -n "$1" ] ; do
 	case $1 in
-		vassar|brandeis|gigaword|kidnap|galaxy|evaluation|manager) cd $1 && sudo make && sudo make push ;;
+		vassar|brandeis|gigaword|galaxy|evaluation|manager) cd $1 && sudo make && sudo make push ;;
 		all)
-			for p in vassar brandeis gigaword kidnap galaxy evaluation manager ; do
+			for p in vassar brandeis gigaword galaxy evaluation manager ; do
 				cd $p && sudo make && sudo make push
 			done
 			;;
