@@ -1,7 +1,10 @@
 # Discovery 2020
-Scripts needed to configure EC2 for the analyst's discovery course.
 
-## Creating an Amazon (EC2) Instance
+Scripts needed to configure EC2 for the analyst's discovery course. 
+
+The rest of this file lays out how to create an Amazon EC2 Instance and a Load Balancer.
+
+## A. Creating an Amazon (EC2) Instance
 
 This is a process that you start from the EC2 Dashboard in the AWS console by clicking the "Launch Instance" button.
 
@@ -49,3 +52,33 @@ Before you can ssh in and connect to the LAPPS/Galaxy site you may have to edit 
 For Galaxy access: Type "HTTP" o port 80<br/>
 For SSH access: Type "SSH" on port 22<br/>
 For Tomcat access: Type "Custom TCP Rule" with the 8000-8999 port range
+
+
+## B. Creating a Load Balancer
+
+From the EC2 Dashboard click "Load Balancers" and then the "Create Load Balancer" button. Use the classic load balancer (the default).
+
+### Step 1: Define Load Balancer
+
+Give it a name and add five listeners for the following ports: 8001, 8002, 8003, 8004 and 8080. These values are for both the load balancer port and the instance ports, the protocol is always HTTP.
+
+### Step 2: Assign Security Groups
+
+Add Lappsgrid Appliance Ports.
+
+### Step 3: Configure Security Settings
+
+Skip.
+
+### Step 4: Configure Health Check
+
+Set Ping path to "/" and and Reponse timeout to 5 seconds. If th ePing path is a non existing path on the instance than the health check will fail.
+
+### Step 5: Add EC2 Instances
+
+Select the instances you want. Not all instances show up, which is a bit of a mystery to me (Marc). You can always add/remove instances later.
+
+### Step 6: Add Tags
+
+Skip and just click "Review and Create" and then "Create".
+
