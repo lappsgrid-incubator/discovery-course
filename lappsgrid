@@ -166,7 +166,7 @@ function define_images() {
     if [ -n "$1" ] ; then
         BRANDEIS=lappsgrid/brandeis:$1
         EVALUATION=lappsgrid/evaluation:$1
-        GALAXY=lappsgrid/galaxy:$1
+        GALAXY=lappsgrid/galaxy-discovery:$1
         GIGAWORD=lappsgrid/gigaword:$1
         KIDNAP=lappsgrid/gigaword:$1
         MANAGER=lappsgrid/service-manager:$1
