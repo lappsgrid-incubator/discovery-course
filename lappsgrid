@@ -217,6 +217,11 @@ function run_all() {
     $DOCKER run -d --name manager -p $MANAGER_PORT:8080 --link vassar --link brandeis --link evaluation $MANAGER
 
     echo "Starting $GALAXY"
+    # Delete that pesky integrated_tool_panel.xml file
+    CONF=/var/local/galaxy/galaxy-central/integrated_tool_panel.xml
+    if [ -e $CONF ] ; then 
+    	rm $CONF
+    fi
     $DOCKER run -d --name galaxy -p $GALAXY_PORT:80 $GALAXY_LINKS $GALAXY_VOLUME $GALAXY
 
     print_ports
