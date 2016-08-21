@@ -9,14 +9,14 @@ git clone https://github.com/lappsgrid-incubator/discovery-course.git
 cd discovery-course && cp connect clone build lappsgrid /usr/local/bin
 mkdir -p /var/local/corpora
 cd /var/local/corpora 
-wget http://www.anc.org/downloads/docker/kidnap1.zip
-wget http://www.anc.org/downloads/docker/kidnap2.zip
-wget http://www.anc.org/downloads/docker/kidnap1-s.zip
-wget http://www.anc.org/downloads/docker/kidnap2-s.zip
-unzip kidnap1.zip
-unzip kidnap2.zip
-unzip kidnap1-s.zip
-unzip kidnap2-s.zip
+wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap1.tgz
+wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap1-s.tgz
+wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap2.tgz
+wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap2-s.tgz
+tar zxf kidnap1.tgz
+tar zxf kidnap1-s.tgz
+tar zxf kidnap2.tgz
+tar zxf kidnap2-s.tgz
 docker run --name ecs-agent \
 --detach=true \
 --restart=on-failure:10 \
