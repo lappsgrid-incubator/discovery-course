@@ -196,14 +196,14 @@ function run_all() {
     echo "Starting Brandeis image $BRANDEIS"
     $DOCKER run -d --name brandeis -p $BRANDEIS_PORT:8080 $BRANDEIS
 
-    if [ -n "$GIGAWORD_VOLUME" ] ; then
-        echo "Starting $GIGAWORD"
-        $DOCKER run -d --name gigaword -p $GIGAWORD_PORT:8080 $GIGAWORD_VOLUME $GIGAWORD
-    fi
-	if [ -n "KIDNAP_VOLUME" ] ; then
-        echo "Starting $KIDNAP"
-        $DOCKER run -d --name kidnap -p $KIDNAP_PORT:8080 $KIDNAP_VOLUME $KIDNAP
-	fi
+    #if [ -n "$GIGAWORD_VOLUME" ] ; then
+    #    echo "Starting $GIGAWORD"
+    #    $DOCKER run -d --name gigaword -p $GIGAWORD_PORT:8080 $GIGAWORD_VOLUME $GIGAWORD
+    #fi
+	#if [ -n "KIDNAP_VOLUME" ] ; then
+    #    echo "Starting $KIDNAP"
+    #    $DOCKER run -d --name kidnap -p $KIDNAP_PORT:8080 $KIDNAP_VOLUME $KIDNAP
+	#fi
 	
     echo "Starting $EVALUATION"
     $DOCKER run -d --name evaluation -p $OAQA_PORT:8080 $EVALUATION
