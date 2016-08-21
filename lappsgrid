@@ -259,12 +259,12 @@ fi
 
 # Check if Gigaword is available and set the $CONTAINERS and
 # $GALAXY_LINKS accordingly.
-if [ -n "$GIGAWORD_VOLUME" ] ; then
-    GALAXY_LINKS="--link manager --link gigaword --link kidnap --link evaluation --link vassar"
-else
-    GALAXY_LINKS="--link manager --link evaluation --link kidnap --link vassar"
-fi
-
+#if [ -n "$GIGAWORD_VOLUME" ] ; then
+#    GALAXY_LINKS="--link manager --link gigaword --link kidnap --link evaluation --link vassar"
+#else
+#    GALAXY_LINKS="--link manager --link evaluation --link kidnap --link vassar"
+#fi
+GALAXY_LINKS="--link manager --link evaluation --link vassar"
 case $1 in
     echo)
         echo_all $2
