@@ -7,5 +7,5 @@ cd /discovery-course
 echo "Pulling code from github..."
 git pull
 echo "Copying scripts to /usr/local/bin..."
-cp build clone connect lappsgrid gitpull recover validate headers update /usr/local/bin
+cp scripts/* /usr/local/bin
 ls -alF /usr/local/bin
