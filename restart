@@ -1,0 +1,5 @@
+#!/bin/bash
+
+lapprgrid kill
+lappsgrid update
+lappsgrid run $1
