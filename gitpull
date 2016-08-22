@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Script to pull latest code from github (master branch) and to
+# overwrite the old versions of scripts in /usr/local/bin
+
+cd /discovery-course
+git pull
+cp build clone connect lappsgrid gitpull run /usr/local/bin

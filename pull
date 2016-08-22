@@ -1,5 +1,0 @@
-#!/bin/bash
-
-cd /discovery-course
-git pull
-cp build clone connect lappsgrid pull restart /usr/local/bin

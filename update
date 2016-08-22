@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Script to kill a currently running lappsgrid instance and then
+# restart a new image. If no argument if given, the latest images will
+# be pulled and those images will be started. If a tag is given asd an
+# argument, the tagged images will be pulled and then started.
+
+lappsgrid kill
+
+if [ "$#" -eq "1" ]
+then
+    lappsgrid pull tag $1
+    lappsgrid run $1
+else
+    lappsgrid pull
+    lappsgrid run
+fi
