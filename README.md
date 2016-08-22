@@ -23,12 +23,7 @@ For testing we have used:
 | CPUs       | 8               |
 | Memory     | 32GB            |
 
-Family: General purpose<br/>
-Type: m4.2xlarge<br/>
-CPUs: 8<br/>
-Memory: 32GB
-
-Click the Next button.
+But for the production instances for the course we used m4.4xlarge, 16 CPUs and 128GB memory. Click the Next button.
 
 ### Step 3: Configure Instance Details
 
@@ -36,7 +31,7 @@ Change IAM role to ecsInstanceRole and in Advanced Details paste in first 9 line
 
 ### Step 4: Add Storage
 
-Use 32 GB.
+Use 32 GB (for the production image we used 128GB.
 
 ### Step 5: Tag Instance
 
