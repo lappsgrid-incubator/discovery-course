@@ -4,5 +4,8 @@
 # overwrite the old versions of scripts in /usr/local/bin
 
 cd /discovery-course
+echo "Pulling code from github..."
 git pull
-cp build clone connect lappsgrid gitpull run /usr/local/bin
+echo "Copying scripts to /usr/local/bin..."
+cp build clone connect lappsgrid gitpull update /usr/local/bin
+ls -alF /usr/local/bin
