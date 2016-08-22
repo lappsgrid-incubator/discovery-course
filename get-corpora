@@ -1,0 +1,12 @@
+#/bin/bash
+
+mkdir -p /var/local/corpora
+cd /var/local/corpora 
+wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap1.tgz
+wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap1-s.tgz
+wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap2.tgz
+wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap2-s.tgz
+tar zxf kidnap1.tgz
+tar zxf kidnap1-s.tgz
+tar zxf kidnap2.tgz
+tar zxf kidnap2-s.tgz
