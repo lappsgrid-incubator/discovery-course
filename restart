@@ -1,5 +1,5 @@
 #!/bin/bash
 
 lapprgrid kill
-lappsgrid update
+lappsgrid pull
 lappsgrid run $1
