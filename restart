@@ -1,5 +1,16 @@
 #!/bin/bash
 
-lapprgrid kill
-lappsgrid pull
-lappsgrid run $1
+# kill a currently running lappsgrid instance and then either start
+# the latest image or, if a tag was given as an argument, start a
+# tagged instance
+
+lappsgrid kill
+
+if [ "$#" -eq "1" ]
+then
+    lappsgrid pull tag $1
+    lappsgrid run $1
+else
+    lappsgrid pull
+    lappsgrid run
+fi
