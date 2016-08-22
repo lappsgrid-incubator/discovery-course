@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for n in {0..9} ; do
+	url=discovery$n.lappsgrid.org
+	echo "Pinging $url"
+	curl -s -D - $url -o /dev/null | head -n 1
+done

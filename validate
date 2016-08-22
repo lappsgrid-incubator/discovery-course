@@ -1,0 +1,12 @@
+#!/bin/bash
+set -eu
+
+for n in {0..9} ;  do
+	url=discovery$n.lappsgrid.org
+	echo "Validating $url"
+	if curl -s $url | grep -q $1 ; then
+		echo "Ok"
+	else
+		echo "ERROR: Missing tool $1"
+	fi
+done

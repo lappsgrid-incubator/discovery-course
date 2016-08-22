@@ -1,0 +1,10 @@
+#!/bin/bash
+set -eu
+tag=$1
+
+docker ps -q | xargs docker kill
+docker ps -a -q | xargs docker rm
+docker images -a | awk '{ print $3 }' | grep -v IMAGE | xargs docker rmi -f
+rm -rf /var/local/galaxy
+mkdir /var/local/galaxy
+lappsgrid run $tag
