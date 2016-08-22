@@ -16,6 +16,13 @@ Select the Ubuntu server.
 
 For testing we have used:
 
+| variable   | value           |
+| ---------- | --------------- |
+| Family     | General purpose |
+| Type       | m4.2xlarge      |
+| CPUs       | 8               |
+| Memory     | 32GB            |
+
 Family: General purpose<br/>
 Type: m4.2xlarge<br/>
 CPUs: 8<br/>
@@ -49,7 +56,7 @@ $ sudo lappsgrid run
 
 Before you can ssh in and connect to the LAPPS/Galaxy site you may have to edit the security group depending on what IP address you are. Select the instance and in the description find the Lappgrid Alliance Ports security group link. Select the "Inbound" tab and add three new rules for your IP address: 
 
-For Galaxy access: Type "HTTP" o port 80<br/>
+For Galaxy access: Type "HTTP" on port 80<br/>
 For SSH access: Type "SSH" on port 22<br/>
 For Tomcat access: Type "Custom TCP Rule" with the 8000-8999 port range
 
@@ -72,7 +79,16 @@ Skip.
 
 ### Step 4: Configure Health Check
 
-Set Ping path to "/" and and Reponse timeout to 5 seconds. If th ePing path is a non existing path on the instance than the health check will fail.
+Use the following settings:
+
+| variable            | value |
+| ------------------- | ----  |
+| Ping path           | "/"   |
+| Reponse timeout     | 2     |
+| Unhealthy threshold | 5     |
+| Healthy threshold   | 2     |
+
+If the Ping path is a non existing path on the instance than the health check will fail.
 
 ### Step 5: Add EC2 Instances
 
