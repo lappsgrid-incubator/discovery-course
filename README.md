@@ -28,11 +28,11 @@ For testing we have used:
 | CPUs       | 8               |
 | Memory     | 32GB            |
 
-But for the production instances for the course we used m4.4xlarge, 16 CPUs and 128GB memory. Click the Next button.
+But for the production instances for the course we used m4.4xlarge, 16 CPUs and 128GB memory or larger.
 
 ### Step 3: Configure Instance Details
 
-Change IAM role to ecsInstanceRole and in Advanced Details paste in first 9 lines of aws-setup.sh (available in this repository at https://github.com/lappsgrid-incubator/discovery-course/blob/master/aws-setup.sh)
+Change IAM role to ecsInstanceRole and in Advanced Details paste in the first part of aws-setup.sh (available in this repository at https://github.com/lappsgrid-incubator/discovery-course/blob/master/aws-setup.sh), all lines before the "docker run" command need to be pasted.
 
 ### Step 4: Add Storage
 
