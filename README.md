@@ -2,9 +2,14 @@
 
 Scripts needed to configure EC2 for the analyst's discovery course. 
 
-The rest of this file lays out how to create an Amazon EC2 Instance and a Load Balancer.
+The rest of this file has note on the following:
 
-## A. Creating an Amazon (EC2) Instance
+1. Creating an Amazon EC2 Instance
+2. Creating a Load Balancer.
+3. Starting and stopping instances with the LAPPS Grid running
+
+
+## 1. Creating an Amazon (EC2) Instance
 
 This is a process that you start from the EC2 Dashboard in the AWS console by clicking the "Launch Instance" button.
 
@@ -56,7 +61,7 @@ For SSH access: Type "SSH" on port 22<br/>
 For Tomcat access: Type "Custom TCP Rule" with the 8000-8999 port range
 
 
-## B. Creating a Load Balancer
+## 2. Creating a Load Balancer
 
 From the EC2 Dashboard click "Load Balancers" and then the "Create Load Balancer" button. Use the classic load balancer (the default).
 
@@ -93,3 +98,16 @@ Select the instances you want. Not all instances show up, which is a bit of a my
 
 Skip and just click "Review and Create" and then "Create".
 
+
+<a name="restart"></a>
+## 3. Starting and stopping instances
+
+Do not simply spin down an instance since Galaxy really does not like that and restart may be harder. First go into the instance and do:
+
+```$ lappsgrid stop```
+
+Then spin down. After spinning up again you should be able to simply do a
+
+```$ lappsgrid start```
+
+and the images that were stopped will be started again.
