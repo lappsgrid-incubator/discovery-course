@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# script for some simple checks of the instance
+
+
+# show directory listings 
+
+echo
+echo $ ls /var/local/corpora
+ls /var/local/corpora
+
+echo
+echo $ ls /var/local/galaxy/galaxy-central
+ls /var/local/galaxy/galaxy-central
+
+
+# test existence of integrated_tool_panel.xml
+
+if [ ! -f /var/local/galaxy/galaxy-central/integrated_tool_panel.xml ]
+then
+	echo
+	echo "WARNING: integrated_tool_panel.xml does not exist"
+fi
+
+# show docker images and processes
+
+echo
+echo $ docker images
+sudo docker images
+
+echo
+echo $ docker ps -a
+sudo docker ps -a
