@@ -1,0 +1,19 @@
+
+echo
+echo "*** Changing directory to /var/local"
+echo
+cd /var/local
+ls -alF
+
+echo
+echo '*** Opening an sftp connection to Brandeis'
+echo '*** After login get a listing and determine what archive to get'
+echo '***'
+echo '***    sftp> dir'
+echo '***    galaxy-bdis1.tgz galaxy-test5.tgz'
+echo '***    sftp> get galaxy-test5.tgz'
+echo '***'
+echo '*** Note that existing files at Brandeis will be overwritten'
+echo
+
+sftp marc@chalciope.cs.brandeis.edu:/home/j/marc/.www/lapps/discovery/galaxy

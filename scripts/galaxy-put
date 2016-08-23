@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -eu
+
+echo
+echo "*** Changing directory to /var/local"
+
+cd /var/local
+
+echo
+echo "*** Creating archive for galaxy"
+printf "*** Enter an identifier for the archive name (using timestamp if none entered)\n? "
+
+read id
+
+id="${id#"${id%%[![:space:]]*}"}"   # remove leading whitespace characters
+id="${id%"${id##*[![:space:]]}"}"   # remove trailing whitespace characters
+
+if [ "$id" == "" ]; then
+   id="`date +%Y%m%d%H%M%S`";
+fi
+
+echo
+echo "*** Creating galaxy-$id.tgz ... "
+
+tar zcf galaxy-$id.tgz galaxy
+
+echo
+ls -alF
+
+echo
+echo '*** Opening an sftp connection to Brandeis, after login type something like'
+echo '***'
+echo '***    sftp> put galaxy-ID.tgz'
+echo '***'
+echo '*** ID is the identifier given earlier. Files are written to a directory accessible at'
+echo '***'
+echo '***    http://www.cs.brandeis.edu/~marc/lapps/discovery/galaxy/'
+echo '***'
+echo '*** Note that existing files with the same name at Brandeis will be overwritten'
+echo
+
+sftp marc@chalciope.cs.brandeis.edu:/home/j/marc/.www/lapps/discovery/galaxy
