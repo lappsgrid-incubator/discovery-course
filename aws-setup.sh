@@ -6,7 +6,7 @@ echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sour
 apt-get update
 apt-get install -y linux-image-extra-$(uname -r) docker-engine
 git clone https://github.com/lappsgrid-incubator/discovery-course.git
-cd discovery-course && cp connect clone build lappsgrid gitpull update /usr/local/bin
+cd discovery-course && cp scripts/* /usr/local/bin
 mkdir -p /var/local/corpora
 cd /var/local/corpora 
 wget http://www.cs.brandeis.edu/~marc/lapps/discovery/corpora/kidnap1.tgz
