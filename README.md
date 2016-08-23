@@ -7,6 +7,7 @@ The rest of this file has note on the following:
 1. Creating an Amazon EC2 Instance
 2. Creating a Load Balancer.
 3. Starting and stopping instances with the LAPPS Grid running
+4. Galaxy data in /var/local/galaxy
 
 
 ## 1. Creating an Amazon (EC2) Instance
@@ -99,7 +100,6 @@ Select the instances you want. Not all instances show up, which is a bit of a my
 Skip and just click "Review and Create" and then "Create".
 
 
-<a name="restart"></a>
 ## 3. Starting and stopping instances
 
 Do not simply spin down an instance since Galaxy really does not like that and restart may be harder. First go into the instance and do:
@@ -111,3 +111,19 @@ Then spin down. After spinning up again you should be able to simply do a
 ```$ lappsgrid start```
 
 and the images that were stopped will be started again.
+
+
+## 4. Galaxy data in /var/local/galaxy
+
+This is where all galaxy data are stored, including workflows, histories, login credentials etcetera. When we deploy a new instance and have discovery.lappsgrid.org point at it, users will not have access to their data anymore, so we need to update the new image with the contents of /var/local/galaxy of the old image. The steps invloved are:
+
+There are three scripts that help with this, galaxy-put, galaxy-get and galaxy-update, that are not as smooth as they could be, but which basically do the following:
+
+1. On the old instance, create an archive of /local/var/galaxy of the old instance and put it on a non-AWS server. The script galaxy-put helps with this. Note that this script, and galaxy-put as well, are tailored to work with putting the archive on a Brandeis server.
+2. On the new instance, kill the LAPPS Server (lappsgrid kill). 
+3. On the new instance, get the archive from the server with galaxy-get. 
+4. On the new instance, backup the current /var/local/galaxy and unpack the archive from the old instance, then replace galaxy/galaxy-central/config/tool_conf.xml (copied from the old instance) with the one in the backup. This can be done with galaxy-update.
+
+The tool_conf.xml overwrite in the last step is needed because otherwise the tool menu in galaxy on the new instance will be the tool menu that was in the old instance, which is not always right.
+
+One thing to be careful with is what to do when the Galaxy menu in the Docker images has changed. In this case a simple update will not have the desired effect because when Galaxy starts up it will first look in /var/local/galaxy for tool settings. Not sure yet what the best way to deal with this is. Simply wiping /var/local/galaxy is not an option.
