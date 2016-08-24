@@ -1,0 +1,15 @@
+#!/bin/bash
+
+archive=$1
+
+if [ "$archive" == "" ]; then
+    echo "No galaxy archive given, exiting...";
+    exit;
+fi
+
+cd /var/local
+mv galaxy galaxy-bak
+tar zxf $archive
+rm galaxy/galaxy-central/integrated_tool_panel.xml
+rm galaxy/galaxy-central/config/tool_conf.xml
+cp galaxy-bak/galaxy-central/config/tool_conf.xml galaxy/galaxy-central/config

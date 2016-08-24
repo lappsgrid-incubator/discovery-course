@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Stopping containers."
+docker ps -q | xargs docker kill
+echo
+echo "Removing images."
+docker ps -a -q | xargs docker rm

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+GALAXY_LINKS="--link manager --link evaluation --link vassar"
+#GALAXY_VOLUME="-v /var/local/galaxy:/export -v /var/local/corpora:/corpora"
+GALAXY_VOLUME="-v /var/local/corpora:/corpora"
+
+BRANDEIS=lappsgrid/brandeis
+EVALUATION=lappsgrid/evaluation
+GALAXY=lappsgrid/galaxy-discovery
+MANAGER=lappsgrid/service-manager
+VASSAR=lappsgrid/vassar
+
+GALAXY_PORT=80
+VASSAR_PORT=8001
+BRANDEIS_PORT=8002
+OAQA_PORT=8004
+MANAGER_PORT=8080
+
+echo "Starting Brandeis image $VASSAR"
+docker run -d --name vassar -p $VASSAR_PORT:8080 $VASSAR
+echo "Starting Brandeis image $BRANDEIS"
+docker run -d --name brandeis -p $BRANDEIS_PORT:8080 $BRANDEIS
+
+echo "Starting $EVALUATION"
+docker run -d --name evaluation -p $OAQA_PORT:8080 $EVALUATION
+
+echo "Waiting for the Vassar Tomcat instance."      
+docker exec vassar waitforstart
+echo "Waiting for the Brandeis Tomcat instance."        
+docker exec brandeis waitforstart
+
+echo "Starting $MANAGER"
+docker run -d --name manager -p $MANAGER_PORT:8080 --link vassar --link brandeis --link evaluation $MANAGER
+
+echo "Starting $GALAXY"
+# Delete that pesky integrated_tool_panel.xml file
+CONF=/var/local/galaxy/galaxy-central/integrated_tool_panel.xml
+if [ -e $CONF ] ; then 
+	rm $CONF
+fi
+docker run -d --name galaxy -p $GALAXY_PORT:80 $GALAXY_LINKS $GALAXY_VOLUME $GALAXY
+
+docker ps
