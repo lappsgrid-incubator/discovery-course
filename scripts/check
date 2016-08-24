@@ -3,6 +3,13 @@
 # script for some simple checks of the instance
 
 
+# show files in root directory (useful because we tend to put an
+# identity file there that indicates what instance we are in)
+
+echo
+echo $ find / -maxdepth 1 -type f -printf '%f\n'
+find / -maxdepth 1 -type f -printf '%f\n'
+
 # show directory listings 
 
 echo
