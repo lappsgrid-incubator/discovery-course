@@ -115,14 +115,13 @@ and the images that were stopped will be started again.
 
 ## 4. Galaxy data in /var/local/galaxy
 
-This is where all galaxy data are stored, including workflows, histories, login credentials etcetera. When we deploy a new instance and have discovery.lappsgrid.org point at it, users will not have access to their data anymore, so we need to update the new image with the contents of /var/local/galaxy of the old image. The steps invloved are:
+This is where all galaxy data are stored, including workflows, histories, login credentials etcetera. When we deploy a new instance and have discovery.lappsgrid.org point at it, users will not have access to their data anymore, so we need to update the new image with the contents of /var/local/galaxy of the old image. There are three scripts that help with this, galaxy-put, galaxy-get and galaxy-update, that are not as smooth as they could be, but which basically do the following:
 
-There are three scripts that help with this, galaxy-put, galaxy-get and galaxy-update, that are not as smooth as they could be, but which basically do the following:
-
-1. On the old instance, create an archive of /local/var/galaxy of the old instance and put it on a non-AWS server. The script galaxy-put helps with this. Note that this script, and galaxy-put as well, are tailored to work with putting the archive on a Brandeis server.
-2. On the new instance, kill the LAPPS Server (lappsgrid kill). 
-3. On the new instance, get the archive from the server with galaxy-get. 
-4. On the new instance, backup the current /var/local/galaxy and unpack the archive from the old instance, then replace galaxy/galaxy-central/config/tool_conf.xml (copied from the old instance) with the one in the backup. This can be done with galaxy-update.
+1. On the old instance, create an archive of /local/var/galaxy of the old instance and put it on a non-AWS server. The script galaxy-put helps with this and you run it as `sudo galaxy-put`. Note that this script, and galaxy-get as well, are tailored to work with putting the archive on a Brandeis server.
+2. On the new instance, kill the LAPPS Server with `sudo lappsgrid kill`. 
+3. On the new instance, get the archive from the server with `sudo galaxy-get`. 
+4. On the new instance, backup the current /var/local/galaxy and unpack the archive from the old instance, then replace galaxy/galaxy-central/config/tool_conf.xml (copied from the old instance) with the one in the backup. This can be done with `sudo galaxy-update ARCHIVE-NAME`. Note that you need to give the name of the archive created in step 1 and downloaded in step 3 as an argument to galaxy-update.
+5. On the new instance, start the server with `sudo lappsgrid run`
 
 The tool_conf.xml overwrite in the last step is needed because otherwise the tool menu in galaxy on the new instance will be the tool menu that was in the old instance, which is not always right.
 
