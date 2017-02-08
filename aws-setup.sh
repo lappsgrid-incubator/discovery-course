@@ -29,5 +29,5 @@ docker run --name ecs-agent \
 --env=ECS_LOGFILE=/log/ecs-agent.log \
 --env=ECS_LOGLEVEL=info \
 --env=ECS_DATADIR=/data \
---env=ECS_CLUSTER=lappsgrid-discovery-cluster \
+--env=ECS_CLUSTER=lappsgrid-deiis-cluster \
 amazon/amazon-ecs-agent:latest
